@@ -5,114 +5,90 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, Button, StyleSheet} from 'react-native';
+import {RecipeView} from './src/components/';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const demo = {
+  id: 1,
+  image:
+    'https://images-gmi-pmc.edge-generalmills.com/7bb42593-aca1-4740-9a74-0d60abc658f8.jpg',
+  categoria: 'trending',
+  name: 'Tacos de pollo al chipotle',
+  ingredients: [
+    {
+      name: 'pollo',
+      amount: '200 gramos',
+    },
+    {
+      name: 'tortillas de maíz',
+      amount: '8 unidades',
+    },
+    {
+      name: 'salsa de chipotle',
+      amount: '2 cucharadas',
+    },
+    {
+      name: 'cebolla',
+      amount: '1/2 unidad',
+    },
+    {
+      name: 'cilantro',
+      amount: 'al gusto',
+    },
+    {
+      name: 'limón',
+      amount: '2 unidades',
+    },
+    {
+      name: 'salsa de chipotle',
+      amount: '2 cucharadas',
+    },
+    {
+      name: 'cebolla',
+      amount: '1/2 unidad',
+    },
+    {
+      name: 'cilantro',
+      amount: 'al gusto',
+    },
+    {
+      name: 'limón',
+      amount: '2 unidades',
+    },
+  ],
+  amount: 4,
+};
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+function App(): JSX.Element {
+  const [recipe, setRecipe] = useState({});
+  const [showView, setShowView] = useState(false);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const showElement = () => {
+    setRecipe(demo);
+    setShowView(true);
+  };
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.recipeView}>
+      <Button title="Press me" onPress={() => showElement()} />
+
+      {showView && (
+        <RecipeView
+          recipe={recipe}
+          closeView={() => setShowView(prevState => !prevState)}
+        />
+      )}
     </View>
   );
 }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+export default App;
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  recipeView: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
   },
 });
-
-export default App;
