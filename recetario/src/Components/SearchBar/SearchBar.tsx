@@ -1,25 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TextInput } from 'react-native';
-interface SearchBarProps {
-  onSearch: (searchText: string) => void;
-}
+import { Icon } from 'react-native-elements';
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchText, setSearchText] = useState('');
-
-  const handleSearch = () => {
-    onSearch(searchText);
-  };
-
+const SearchBar: React.FC = () => {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TextInput
         style={{ flex: 1, height: 40, borderColor: 'gray', borderWidth: 1, paddingHorizontal: 10 }}
         placeholder="Search..."
-        onChangeText={text => setSearchText(text)}
-        onSubmitEditing={handleSearch}
-        value={searchText}
       />
+      <Icon name="search" type="material" />
     </View>
   );
 };
+
+export default SearchBar;
