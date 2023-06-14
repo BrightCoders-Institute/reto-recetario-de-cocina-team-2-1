@@ -1,6 +1,6 @@
-import React from 'react';
-import {Text, View, Image, ScrollView} from 'react-native';
 import {IconButton} from '../';
+import {Text, View, Image, ScrollView} from 'react-native';
+import React from 'react';
 import styles from './StylesRecipeView';
 
 const RecipeView = ({recipe, closeView, likeAction}: any) => {
