@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#4E4C4C',
+    zIndex: 1,
   },
   //Estilos Header
   containerImage: {
