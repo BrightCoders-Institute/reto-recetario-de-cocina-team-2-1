@@ -1,95 +1,59 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {RecipeView, SearchBar} from './src/components';
-
-const demou = [
-  {
-    id: 1,
-    image:
-      'https://images-gmi-pmc.edge-generalmills.com/7bb42593-aca1-4740-9a74-0d60abc658f8.jpg',
-    categoria: 'trending',
-    name: 'Tacos de pollo al chipotle',
-    ingredients: [
-      {
-        name: 'cebolla',
-        amount: '1/2 unidad',
-      },
-      {
-        name: 'cilantro',
-        amount: 'al gusto',
-      },
-      {
-        name: 'limón',
-        amount: '2 unidades',
-      },
-    ],
-    amount: 4,
-  },
-  {
-    id: 2,
-    image:
-      'https://images-gmi-pmc.edge-generalmills.com/7bb42593-aca1-4740-9a74-0d60abc658f8.jpg',
-    categoria: 'trending',
-    name: 'Tacos de carne al chipotle',
-    ingredients: [
-      {
-        name: 'cebolla',
-        amount: '1/2 unidad',
-      },
-      {
-        name: 'cilantro',
-        amount: 'al gusto',
-      },
-      {
-        name: 'limón',
-        amount: '2 unidades',
-      },
-    ],
-    amount: 4,
-  },
-  {
-    id: 3,
-    image:
-      'https://images-gmi-pmc.edge-generalmills.com/7bb42593-aca1-4740-9a74-0d60abc658f8.jpg',
-    categoria: 'trending',
-    name: 'Tacos de pescado al chipotle',
-    ingredients: [
-      {
-        name: 'cebolla',
-        amount: '1/2 unidad',
-      },
-      {
-        name: 'cilantro',
-        amount: 'al gusto',
-      },
-      {
-        name: 'limón',
-        amount: '2 unidades',
-      },
-    ],
-    amount: 4,
-  },
-];
+import {View, Text} from 'react-native';
+import {ListRecipes, RecipeView, SearchBar} from './src/Components/';
+import fakeData from './src/data/data';
+import styles from './AppStyles';
 
 function App(): JSX.Element {
   const [recipe, setRecipe] = useState({});
+  const [likeRecipes, setLikeRecipes] = useState<any[]>([]);
+  const [recentRecipes, setRecentRecipes] = useState<any[]>([]);
   const [showView, setShowView] = useState(false);
 
-  const setElementSelect = (e: any) => {
-    setRecipe(e);
+  const setElementSelect = (currentRecipe: {id: Number}) => {
+    setRecipe(currentRecipe);
     setShowView(true);
+
+    isWithin(recentRecipes, currentRecipe, setRecentRecipes);
+  };
+
+  const recipeLike = (currentRecipe: any) => {
+    isWithin(likeRecipes, currentRecipe, setLikeRecipes);
+  };
+
+  const isWithin = (arrayPath: any, element: any, setElement: any) => {
+    const arrayIDs = arrayPath.map((e: any) => e.id);
+
+    if (!arrayIDs.includes(element.id)) {
+      setElement([...arrayPath, element]);
+    }
   };
 
   return (
     <View style={styles.recipeView}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <SearchBar data={demou} setElementSelect={setElementSelect} />
+      <View style={{flex: 1, marginTop: 40}}>
+        <SearchBar data={fakeData} setElementSelect={setElementSelect} />
+      </View>
+
+      <View style={{flex: 2, marginTop: 20}}>
+        <Text style={styles.titleStyle}>RECENT RECIPES</Text>
+        {recentRecipes.length >= 1 && (
+          <ListRecipes data={recentRecipes} action={setElementSelect} />
+        )}
+      </View>
+
+      <View style={{flex: 2}}>
+        <Text style={styles.titleStyle}>RECENT YOU LIKED </Text>
+        {likeRecipes.length >= 1 && (
+          <ListRecipes data={likeRecipes} action={setElementSelect} />
+        )}
       </View>
 
       {showView && (
         <RecipeView
           recipe={recipe}
           closeView={() => setShowView(prevState => !prevState)}
+          likeAction={recipeLike}
         />
       )}
     </View>
@@ -97,11 +61,3 @@ function App(): JSX.Element {
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  recipeView: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-  },
-});

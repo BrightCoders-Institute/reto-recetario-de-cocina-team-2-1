@@ -18,12 +18,12 @@ const RecipeView = ({recipe, closeView, likeAction}: any) => {
             }}
           />
           <IconButton
-            action={likeAction}
+            action={() => likeAction(recipe)}
             imageStyles={styles.icon}
             url={require('../../images/sharethis.png')}
           />
           <IconButton
-            action={likeAction}
+            action={() => likeAction(recipe)}
             imageStyles={styles.icon}
             url={require('../../images/heart.png')}
           />
