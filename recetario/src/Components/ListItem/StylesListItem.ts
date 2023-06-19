@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 170,
     width: 160,
+    backgroundColor: '#C0C0C0',
   },
   itemImage: {
     width: '100%',

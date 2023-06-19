@@ -2,8 +2,13 @@ import {IconButton} from '../';
 import {Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import styles from './StylesRecipeView';
+import {RecipeViewProps} from '../../interfaces/interfaces';
 
-const RecipeView = ({recipe, closeView, likeAction}: any) => {
+const RecipeView: React.FC<RecipeViewProps> = ({
+  recipe,
+  closeView,
+  likeAction,
+}) => {
   return (
     <View style={styles.recipeView}>
       <View style={styles.containerImage}>

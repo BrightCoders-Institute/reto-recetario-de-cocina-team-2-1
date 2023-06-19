@@ -1,27 +1,39 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
 import {ListRecipes, RecipeView, SearchBar} from './src/Components/';
+import {View, Text} from 'react-native';
 import fakeData from './src/data/data';
 import styles from './AppStyles';
+import {Recipe} from './src/interfaces/interfaces';
 
 function App(): JSX.Element {
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState<Recipe>({
+    id: 0,
+    image: '',
+    categoria: '',
+    name: '',
+    ingredients: [],
+    amount: 0,
+  });
   const [likeRecipes, setLikeRecipes] = useState<any[]>([]);
   const [recentRecipes, setRecentRecipes] = useState<any[]>([]);
   const [showView, setShowView] = useState(false);
 
-  const setElementSelect = (currentRecipe: {id: Number}) => {
+  const setElementSelect = (currentRecipe: Recipe) => {
     setRecipe(currentRecipe);
     setShowView(true);
 
     isWithin(recentRecipes, currentRecipe, setRecentRecipes);
   };
 
-  const recipeLike = (currentRecipe: any) => {
+  const recipeLike = (currentRecipe: Recipe) => {
     isWithin(likeRecipes, currentRecipe, setLikeRecipes);
   };
 
-  const isWithin = (arrayPath: any, element: any, setElement: any) => {
+  const isWithin = (
+    arrayPath: any[],
+    element: any,
+    setElement: React.Dispatch<React.SetStateAction<any[]>>,
+  ): void => {
     const arrayIDs = arrayPath.map((e: any) => e.id);
 
     if (!arrayIDs.includes(element.id)) {
@@ -31,18 +43,18 @@ function App(): JSX.Element {
 
   return (
     <View style={styles.recipeView}>
-      <View style={{flex: 1, marginTop: 40}}>
+      <View style={styles.searchBarContainer}>
         <SearchBar data={fakeData} setElementSelect={setElementSelect} />
       </View>
 
-      <View style={{flex: 2, marginTop: 20}}>
+      <View style={styles.sectionContainer}>
         <Text style={styles.titleStyle}>RECENT RECIPES</Text>
         {recentRecipes.length >= 1 && (
           <ListRecipes data={recentRecipes} action={setElementSelect} />
         )}
       </View>
 
-      <View style={{flex: 2}}>
+      <View style={styles.sectionContainer}>
         <Text style={styles.titleStyle}>RECENT YOU LIKED </Text>
         {likeRecipes.length >= 1 && (
           <ListRecipes data={likeRecipes} action={setElementSelect} />

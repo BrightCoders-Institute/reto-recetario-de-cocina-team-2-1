@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableHighlight,
-  Keyboard,
-} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+} from 'react-native';
+import {SearchBarProps} from '../../interfaces/interfaces';
 import styles from './StylesSearchBar';
 
-const SearchBar = ({data, setElementSelect}: any) => {
+const SearchBar: React.FC<SearchBarProps> = ({data, setElementSelect}: any) => {
   const [searchText, setSearchText] = useState('');
   const [dataResults, setDataResults] = useState([]);
 
@@ -42,6 +43,7 @@ const SearchBar = ({data, setElementSelect}: any) => {
           <View style={styles.inputContainerResults}>
             {dataResults.map((element: any) => (
               <TouchableHighlight
+                underlayColor="#D3D3D3"
                 key={element.id}
                 onPress={() => selectElement(element)}>
                 <Text style={styles.textResult}>{element.name}</Text>
